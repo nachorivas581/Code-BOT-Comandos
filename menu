@@ -1,0 +1,94 @@
+#!/bin/bash
+unset checkPID_GEN
+checkPID_GEN=$(ps x|grep -v grep|grep "8888")
+[[ ! $checkPID_GEN ]] && PID_GEN='(💔) OFF' || PID_GEN='(💚) ON'
+[[ -e /etc/systemd/system/btkill.service ]] && kkid="✅" || kkid="❌"
+
+menu_src () {
+#namcli=$(bash /etc/ADM-db/BotGen.sh | grep  message_from_first_name | grep message_from_first_name | grep -i message_from_first_name | awk {'print $4'})
+#${message_text[$usuario]}  $message_from_first_name $message_from_last_name
+[[ -z ${callback_query_from_username} ]] && nUSER=${message_from_username} || nUSER=${callback_query_from_username}
+bot_retorno="  🎊 MENU PRINCIPAL DE ChumoGH|ADM $(cat < /etc/SCRIPT/v-local.log) 🎊\n"
+	 if [[ $(echo $permited|grep "${chatuser}") = "" ]]; then
+		 if [[ $(cat ${CID}|grep "${chatuser}") = "" ]]; then
+		 [[ -e /root/RegBOT/banID ]] && idBAN=$(cat /root/RegBOT/banID) || idBAN=""
+		 #[[ -z "$(echo $idBAN | grep "${chatuser")" ]] && {
+		 	 bot_retorno+="$LINE\n"
+			 #bot_retorno+="𝙃𝙤𝙡𝙖 (  $message_from_first_name $message_from_last_name  ), 𝘽𝙞𝙚𝙣𝙫𝙚𝙣𝙞𝙙𝙤 𝙖𝙡 𝙈𝙚𝙣𝙪"
+			 bot_retorno+="$LINE\n"
+			 bot_retorno+="  ⚠️ AUN NO ESTAS AUTORIZADO 🚫"
+			 bot_retorno+="$LINE\n"
+			 bot_retorno+=" HOLA @${nUSER} SU ID NO ESTA VERIFICADO \n"
+			 bot_retorno+="$LINE\n"
+			 bot_retorno+="/ID     ►  MUESTRA TU ID PERSONAL 📍\n"
+			 bot_retorno+="/menu  | MENU DE COMANDOS\n"
+			 bot_retorno+="/ayuda | INSTRUCCIONES DE COMANDOS\n"
+			 bot_retorno+="/price | PRECIOS DE ACCESO MEMBRESIAS\n"
+			 bot_retorno+="/chekid | VERIFICAR ID LUEGO DE PAGO\n"
+			 bot_retorno+="$LINE\n"
+			 bot_retorno+=" ADQUIERE UNA MENBRESIA O DIJITA /prices \n O CONTACTAME $(cat < /etc/ADM-db/resell)\n"
+			 bot_retorno+="$LINE\n"
+			 menu_printSN
+		#	 } || {
+		#	 bot_retorno+="$LINE\n"
+		#	 bot_retorno+="     🚫🚫️ SU ID FUE BANEADO 🚫🚫 \n"
+		#	 bot_retorno+="$LINE\n"
+		#	 menu_printSN
+		#	 }
+			 #msj_fun
+		 else
+		 	[[ -e /etc/menu_ito ]] && nomkey="$(cat /etc/menu_ito)" || nomkey="$(curl -sSL "https://www.dropbox.com/s/z38hj1mz3q9krso/menu_credito")"
+		 	numkey_used=$(grep -o -i $message_chat_id /etc/gerar-sh-log | wc -l)
+			numkey_gen=$(grep -o -i $message_chat_id /etc/ADM-db/num-key.cont | wc -l)
+			data_user=$(cat ${CID}|grep "${chatuser}" | awk -F "|" '{print $2}')
+			data_sec=$(date +%s)
+			data_user_sec=$(date +%s --date="$data_user")
+			variavel_soma=$(($data_user_sec - $data_sec))
+			dias_use=$(($variavel_soma / 86400))
+			[[ "$dias_use" -le 0 ]] && dias_use=0 || dias_use=$(($dias_use + 1))
+			bot_retorno+="$LINE\n"
+			 bot_retorno+="  ⚠️ ACCESO ILIMITADO POR『 $dias_use 』DIAS ⚠️ \n  ✓ INCLUIDO TU RESELLER EN LA KEY ✔"
+			 bot_retorno+=" ✩ ID AUTORIZADO HASTA EL $data_user | $(date +%R) ⌚\n"
+			 [[ -z $checkPID_GEN ]] && bot_retorno+=" ⚠️ ADVERTENCIA!! BotGen ⚠️\n" || bot_retorno+=" ✩ BotGen FUNCIONANDO ONLINE 🔥\n"
+			 [[ -z ${callback_query_from_first_name} ]] && firsnme="${message_from_first_name}" || firsnme="${callback_query_from_first_name}"
+			 [[ -z ${callback_query_from_last_name} ]] && lastnme="${message_from_last_name}" || lastnme="${callback_query_from_last_name}"
+			 bot_retorno+="$LINE\n"
+			 bot_retorno+=" RESELLER ACTUAL : ${firsnme} ${lastnme}\n"
+			 bot_retorno+="$LINE\n"
+			 bot_retorno+="/menu    ►  MENU DE ACCIONES PERMITIDAD | \n"
+			 bot_retorno+="/hack	► 	HACKEAR LA NASA :v \n"
+			 bot_retorno+="/rvntas	► 	AGREGAR REVENDEDOR \n"
+			 bot_retorno+="/instal  ►  LINK DE SCRIPT  |\n"
+			 bot_retorno+="/keygen  ►  COMANDO DE GENERAR KEY  |\n"
+			 bot_retorno+="/ayuda   ►  Ayuda/Instrucciones del BOT |\n"
+			 bot_retorno+=" ❊ 𝚁𝚎𝚌𝚞𝚎𝚛𝚍𝚊 𝙲𝚘𝚕𝚊𝚋𝚘𝚛𝚊𝚛 💸💰 , 𝚜𝚒 𝚝𝚎 𝚊𝚐𝚛𝚊𝚍𝚘 𝚖𝚒 𝚃𝚛𝚊𝚋𝚊𝚓𝚘 ❊\n"
+			 bot_retorno+="Si tienes inconvenientes con el Bot  🎁 Contactame : +$(cat < /etc/numctc) 📲\n"
+			 bot_retorno+=" 🔐 『 $numkey_used 』𝙆𝙚𝙮𝙨 𝙐𝙨𝙖𝙙𝙖𝙨 🔓,『 $numkey_gen 』𝙆𝙚𝙮𝙨 𝙂𝙚𝙣𝙚𝙧𝙖𝙙𝙖𝙨 🗝️ \n"
+			 bot_retorno+="$LINE\n"
+			 menu_print
+		 fi
+		 
+	 else
+		 unset usadas
+		 usadas="$(cat /etc/http-instas)"
+		 [[ ! $usadas ]] && k_used="0" || k_used="$usadas"
+		 bot_retorno+="Gen $PID_GEN | Keys Used [$k_used]\n"
+		 bot_retorno+="$LINE\n"
+		 bot_retorno+="/infosys	➩ 	INFORMACION DEL VPS \n"
+		 bot_retorno+="/killid	➩ 	LIMITADOR DE CADUCIDAD ${kkid}\n"
+		 bot_retorno+="/idgen	➩ 	LISTA DE ID + GENERADAS\n"
+		 bot_retorno+="/chat	➩ 	CHATEAR CON EL BOT\n"
+		 bot_retorno+="/buscar	➩ 	BUSCAR ID AUTORIZADO\n"
+		 bot_retorno+="/instal	➩ 	INSTALADOR OFICIAL \n"
+		 bot_retorno+="/hack	➩ 	HACKEAR LA NASA :v \n"
+		 bot_retorno+="/addrev	➩ 	AGREGAR REVENDEDOR \n"
+		 bot_retorno+="/ayuda	➩	INSTRUCCIONES DE COMANDOS \n"
+		 bot_retorno+="/cache	➩	OPTIMIZA SERVIDOR \n"
+		 bot_retorno+="/update	➩	ACTUALIZA FILES BotGen \n"
+		 bot_retorno+="/reboot	➩	REINICIA SERVIDOR VPS \n"
+		 bot_retorno+="/price   ➩ PRECIOS DE ACCESO MEMBRESIAS\n"
+		 bot_retorno+="/donar	➩ ACTIVA O DESACTIVA EL MENSAJE DONATIVO \n"
+		 bot_retorno+="$LINE\n"
+		 menu_print
+	 fi	
+}

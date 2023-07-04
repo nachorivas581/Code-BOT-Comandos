@@ -1,0 +1,129 @@
+#!/bin/bash
+# -*- ENCODING: UTF-8 -*-
+
+dropID () {
+	unset bot_retorno
+[[ -e /etc/systemd/system/btkill.service ]] && {
+killall kill_drop.sh &>/dev/null
+systemctl stop btkill &>/dev/null
+systemctl disable btkill &>/dev/null
+rm /etc/systemd/system/btkill.service &>/dev/null
+bot_retorno+=" ⚠️ ALERTA DE NOTIFICACION ⚠️\n"
+bot_retorno+="          Bot ID KILL fuera de linea"
+bot_retorno+="$LINE\n"
+} || {
+echo -e '[Unit]
+Description=BotGen Service by @ChumoGH
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/root
+ExecStart="/bin/bash" "/etc/ADM-db/sources/kill_drop.sh"
+ExecReload="/bin/bash" "/etc/ADM-db/sources/kill_drop.sh"
+Restart=always
+RestartSec=3600s
+
+[Install]
+WantedBy=multi-user.target' > /etc/systemd/system/btkill.service
+	systemctl daemon-reload
+	systemctl enable btkill &>/dev/null
+	systemctl start btkill &>/dev/null
+	bot_retorno+=" 🔰 AVISO DE NOTIFICACION 🔰 \n"
+	bot_retorno+="           Bot ID KILL ACTIVADO"
+	bot_retorno+="$LINE\n"
+}
+msj_fun
+#[[ -e /etc/ADM-db/Admin-ID ]] && var=$(cat < /etc/ADM-db/Admin-ID) 
+#[[ ! -z ${callback_query_message_chat_id[$id]} ]] && var=${callback_query_message_chat_id[$id]} || var=${message_chat_id[$id]}
+ #							ShellBot.sendMessage --chat_id $var \
+ #                           --reply_to_message_id $var \
+ #                          --text "<i>$(echo -e $bot_retorno)</i>" \
+ #                           --parse_mode html
+}
+
+
+comand () {
+	    if [[ $(echo $permited|grep "${chatuser}") = "" ]]; then
+		 if [[ $(cat ${CID}|grep "${chatuser}") = "" ]]; then
+			 case ${comando[0]} in
+				 /[Ii]d|/[Ii]D)myid_src &;;
+				 /[Mm]enu|[Mm]enu|/[Ss]tart|[Ss]tart|[Cc]omensar|/[Cc]omensar)menu_src &;;
+				 /[Aa]yuda|[Aa]yuda|[Hh]elp|/[Hh]elp)ayuda_src &;;
+				 /[Dd]onar|[Dd]onar)donar &;;
+				 /[Ii]mg|[Ii]mg)reply &;;
+				 /[Pp]rice|[Pp]price|[Pp]rices|/[Pp]rices)prices_on &;;
+				 /sendid)send_ID;;
+				 /chekid)send_ID;;
+				 /upmake)dupdate2;;
+				 /*|*)invalido_fun &;;
+			 esac
+		 else
+		 	if [[ ${message_text[$id]} || ${callback_query_data[$id]} ]]; then
+			 case ${comando[0]} in
+				 /[Mm]enu|[Mm]enu|/[Ss]tart|[Ss]tart|[Cc]omensar|/[Cc]omensar)menu_src &;;
+				 /[Aa]yuda|[Aa]yuda|[Hh]elp|/[Hh]elp)ayuda_src &;;
+				 /[Ii]d|/[Ii]D)myid_src &;;
+				 /[Ii]nstal)link_src &;;
+				 /[Kk]eygen)gerar_key &;;
+				 /[Bb]anIP|[Bb]anIP)reply &;;
+				 /[Pp]rice|[Pp]price|[Pp]rices|/[Pp]rices)prices_on &;;
+				 /[Dd]onar|[Dd]onar)donar &;;
+				 /upmake)dupdate2;;
+				 /*|*)invalido_fun &;;
+			 esac
+			fi
+			sleep 5 
+			[[ -e "/etc/donar_active.txt" ]] && donar
+		 fi
+	    else
+
+	    	if [[ ${message_reply_to_message_message_id[$id]} ]]; then
+				case ${message_reply_to_message_text[$id]} in
+					'/del')deleteID_reply;;
+					'/add')addID_reply;;
+					'/addrev')addID_reventa;;
+					'/buscar')searchID_reply;;
+					'/banIP')killIP_reply;;
+					'/img')img_reply;;
+					*)invalido_fun;;
+				esac
+
+			elif [[ ${message_document_file_id[$id]} ]]; then
+					 download_file
+
+	    	elif [[ ${message_text[$id]} || ${callback_query_data[$id]} ]]; then
+
+		 		case ${comando[0]} in
+					 /[Mm]enu|[Mm]enu|/[Ss]tart|[Ss]tart|[Cc]omensar|/[Cc]omensar)menu_src &;;
+					 /[Aa]yuda|[Aa]yuda|[Hh]elp|/[Hh]elp)ayuda_src &;;
+					 /[Ii]d|/[Ii]D)myid_src &;;
+					 /[Kk]illid|[Kk]illid) dropID &;;
+					 /[Cc]hat|[Ch]hat)msj_chat &;;
+					 /[Ii]mg|[Ii]mg)reply &;;
+					 /[Aa]dd|/[Dd]el)reply &;;
+					 /[Aa]ddrev)reply &;;
+					 /[Bb]uscar|[Bb]uscar)reply &;;
+					 /[Bb]anIP|[Bb]anIP)reply &;;
+					 /[Cc]atip|[Cc]atip)list_IP &;;
+					 /[Pp]ower)start_gen &;;
+					 /[Kk]eygen)gerar_key &;;
+			 		 /[Ii]nfosys)infosys_src &;;
+			 		 /[Ll]ist)listID_src &;;
+			 		 /[Ii]dgen|[Ii]dgen)listID_GEN &;;
+					 /[Rr]eboot)reboot_src &;;
+			 		 /[Ii]nstal)link_src &;;
+			 		 /[Cc]ache)cache_src &;;
+					 /[Uu]pdate|/[Aa]ctualizar)update &;;
+					 /[Dd]onar|[Dd]onar)donar_OnOff &;;
+					 /[Pp]rice|[Pp]price|[Pp]rices|/[Pp]rices)prices_on &;;
+					 /upmake)dupdate2;;
+			 		 /*|*)invalido_fun &;;
+				esac
+
+			fi
+
+	    fi
+}
